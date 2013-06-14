@@ -2,6 +2,11 @@
 
 NO MUSIC, NO BUILD. Enjoy your compile time.
 
+## Requirement
+
+ - Mac & iTunes
+ - bash-itunes
+
 ## Install
 
  1. Buy a Mac. (Sorry...)
@@ -22,7 +27,7 @@ addSbtPlugin("com.github.tototoshi" % "sbt-musical" % "0.1.0")
 
 First, open iTunes.
 
-Prefix arbitrary commands with ♪. This play music while executing the command.
+Prefix arbitrary commands with ♪. This will play music while executing the command.
 
 ```
 > ♪ compile
