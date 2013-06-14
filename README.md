@@ -8,7 +8,8 @@ NO MUSIC, NO BUILD. Enjoy your compile time.
  2. Install bash-itunes
 
 ```
-$ mkdir ~/bin; curl https://raw.github.com/illusori/bash-itunes/master/itunes > ~/bin/itunes && chmod 0755 !#:3
+$ mkdir ~/bin  # if not exists
+$ curl https://raw.github.com/illusori/bash-itunes/master/itunes > ~/bin/itunes && chmod 0755 !#:3
 ```
 
  3. In your ~/.sbt/plugins/build.sbt
