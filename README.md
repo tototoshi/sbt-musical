@@ -20,7 +20,7 @@ $ curl https://raw.github.com/illusori/bash-itunes/master/itunes > ~/bin/itunes 
  3. In your ~/.sbt/plugins/build.sbt
 
 ```scala
-addSbtPlugin("com.github.tototoshi" % "sbt-musical" % "0.1.0")
+addSbtPlugin("com.github.tototoshi" % "sbt-musical" % "0.1.1")
 ```
 
 ## Usage
