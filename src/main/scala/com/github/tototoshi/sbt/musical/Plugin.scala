@@ -32,7 +32,12 @@ object Plugin extends sbt.Plugin {
   lazy val vol = Command("itunes-vol")(_ => volumeParser) { (state, arg) => iTunes.vol(arg); state }
 
   lazy val hook = Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
-    "itunes-play" :: args :: "itunes-pause" :: state
+    try {
+      Command.process("itunes-play", state)
+      Command.process(args, state)
+    } finally {
+      Command.process("itunes-pause", state)
+    }
   }
 
   lazy val musicalBriefHelp = ("♪ <command>", "music trigger")
