@@ -15,9 +15,13 @@ package com.github.tototoshi.sbt.musical
 
 import sbt._
 import Keys._
+import complete.DefaultParsers._
 import com.github.tototoshi.itunes.iTunes
 
 object Plugin extends sbt.Plugin {
+  private[this] val volumeParser = Space ~> (
+    List("up", "down", "mute", "unmute") ++ (0 to 100).map(_.toString)
+  ).map(token(_)).reduce(_ | _) | any.+.string
 
   lazy val play = Command.command("itunes-play") { (state) => iTunes.play(); state }
   lazy val pause = Command.command("itunes-pause") { (state) => iTunes.pause(); state }
@@ -25,7 +29,7 @@ object Plugin extends sbt.Plugin {
   lazy val next = Command.command("itunes-next") { (state) => iTunes.next(); state }
   lazy val prev = Command.command("itunes-prev") { (state) => iTunes.prev(); state }
   lazy val info = Command.command("itunes-info") { (state) => iTunes.prev(); state }
-  lazy val vol = Command.single("itunes-vol") { (state, arg) => iTunes.vol(arg); state }
+  lazy val vol = Command("itunes-vol")(_ => volumeParser) { (state, arg) => iTunes.vol(arg); state }
 
   lazy val hook = Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
     "itunes-play" :: args :: "itunes-pause" :: state
