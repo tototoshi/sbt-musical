@@ -9,7 +9,7 @@ object SbtmusicalBuild extends Build {
     settings = Project.defaultSettings ++ Seq(
       name := "sbt-musical",
       organization := "com.github.tototoshi",
-      version := "0.1.1",
+      version := "0.1.2",
       sbtPlugin := true,
       libraryDependencies ++= Seq(
         "com.github.tototoshi" %% "scala-itunes" % "0.1.0"

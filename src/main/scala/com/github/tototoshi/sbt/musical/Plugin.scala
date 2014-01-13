@@ -23,15 +23,15 @@ object Plugin extends sbt.Plugin {
     List("up", "down", "mute", "unmute") ++ (0 to 100).map(_.toString)
   ).map(token(_)).reduce(_ | _) | any.+.string
 
-  lazy val play = Command.command("itunes-play") { (state) => iTunes.play(); state }
-  lazy val pause = Command.command("itunes-pause") { (state) => iTunes.pause(); state }
-  lazy val stop = Command.command("itunes-stop") { (state) => iTunes.stop(); state }
-  lazy val next = Command.command("itunes-next") { (state) => iTunes.next(); state }
-  lazy val prev = Command.command("itunes-prev") { (state) => iTunes.prev(); state }
-  lazy val info = Command.command("itunes-info") { (state) => iTunes.prev(); state }
-  lazy val vol = Command("itunes-vol")(_ => volumeParser) { (state, arg) => iTunes.vol(arg); state }
+  private[this] lazy val play = Command.command("itunes-play") { (state) => iTunes.play(); state }
+  private[this] lazy val pause = Command.command("itunes-pause") { (state) => iTunes.pause(); state }
+  private[this] lazy val stop = Command.command("itunes-stop") { (state) => iTunes.stop(); state }
+  private[this] lazy val next = Command.command("itunes-next") { (state) => iTunes.next(); state }
+  private[this] lazy val prev = Command.command("itunes-prev") { (state) => iTunes.prev(); state }
+  private[this] lazy val info = Command.command("itunes-info") { (state) => iTunes.prev(); state }
+  private[this] lazy val vol = Command("itunes-vol")(_ => volumeParser) { (state, arg) => iTunes.vol(arg); state }
 
-  lazy val hook = Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
+  private[this] lazy val hook = Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
     try {
       Command.process("itunes-play", state)
       Command.process(args, state)
@@ -40,8 +40,8 @@ object Plugin extends sbt.Plugin {
     }
   }
 
-  lazy val musicalBriefHelp = ("♪ <command>", "music trigger")
-  lazy val musicalDetailHelp = "Play music while executing commands."
+  private[this] lazy val musicalBriefHelp = ("♪ <command>", "music trigger")
+  private[this] lazy val musicalDetailHelp = "Play music while executing commands."
 
   override lazy val settings = Seq(
     commands ++= Seq(play, pause, stop, next, prev, info, vol, hook)
