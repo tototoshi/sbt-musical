@@ -14,7 +14,7 @@ NO MUSIC, NO BUILD. Enjoy your compile time.
 
 ```
 $ mkdir ~/bin  # if not exists
-$ https://raw.githubusercontent.com/illusori/bash-itunes/master/itunes > ~/bin/itunes && chmod 0755 !#:3
+$ curl https://raw.githubusercontent.com/illusori/bash-itunes/master/itunes > ~/bin/itunes && chmod 0755 !#:3
 ```
 
  3. In your ~/.sbt/plugins/build.sbt
