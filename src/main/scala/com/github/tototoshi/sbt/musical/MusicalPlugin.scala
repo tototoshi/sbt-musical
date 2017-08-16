@@ -18,7 +18,7 @@ import Keys._
 import complete.DefaultParsers._
 import com.github.tototoshi.itunes.iTunes
 
-object Plugin extends sbt.Plugin {
+object MusicalPlugin extends sbt.AutoPlugin {
   private[this] val volumeParser = Space ~> (
     List("up", "down", "mute", "unmute") ++ (0 to 100).map(_.toString)
   ).map(token(_)).reduce(_ | _) | any.+.string
@@ -43,7 +43,7 @@ object Plugin extends sbt.Plugin {
   private[this] lazy val musicalBriefHelp = ("♪ <command>", "music trigger")
   private[this] lazy val musicalDetailHelp = "Play music while executing commands."
 
-  override lazy val settings = Seq(
+  override lazy val projectSettings = Seq(
     commands ++= Seq(play, pause, stop, next, prev, info, vol, hook)
   )
 
