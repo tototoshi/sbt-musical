@@ -14,37 +14,42 @@
 package com.github.tototoshi.sbt.musical
 
 import sbt._
+import sys.process.Process
 import Keys._
-import complete.DefaultParsers._
-import com.github.tototoshi.itunes.iTunes
 
-object Plugin extends sbt.Plugin {
-  private[this] val volumeParser = Space ~> (
-    List("up", "down", "mute", "unmute") ++ (0 to 100).map(_.toString)
-  ).map(token(_)).reduce(_ | _) | any.+.string
+object SbtMusicalPlugin extends AutoPlugin {
 
-  private[this] lazy val play = Command.command("itunes-play") { (state) => iTunes.play(); state }
-  private[this] lazy val pause = Command.command("itunes-pause") { (state) => iTunes.pause(); state }
-  private[this] lazy val stop = Command.command("itunes-stop") { (state) => iTunes.stop(); state }
-  private[this] lazy val next = Command.command("itunes-next") { (state) => iTunes.next(); state }
-  private[this] lazy val prev = Command.command("itunes-prev") { (state) => iTunes.prev(); state }
-  private[this] lazy val info = Command.command("itunes-info") { (state) => iTunes.prev(); state }
-  private[this] lazy val vol = Command("itunes-vol")(_ => volumeParser) { (state, arg) => iTunes.vol(arg); state }
+  override def requires = sbt.plugins.CorePlugin
+  override def trigger = allRequirements
 
-  private[this] lazy val hook = Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
-    try {
-      Command.process("itunes-play", state)
-      Command.process(args, state)
-    } finally {
-      Command.process("itunes-pause", state)
-    }
+  private[this] lazy val musicalBriefHelp = ("♪ <command>","Trigger to play YouTube video")
+  private[this] lazy val musicalDetailHelp = "Play a video while executing commands."
+
+  object autoImport {
+    val sbtMusicalYouTubePlayer = settingKey[String]("Command name")
+    val sbtMusicalYouTubeVideoUrl = settingKey[String]("Video URL")
+    val sbtMusicalHook = settingKey[Command]("Trigger to play a video")
   }
 
-  private[this] lazy val musicalBriefHelp = ("♪ <command>", "music trigger")
-  private[this] lazy val musicalDetailHelp = "Play music while executing commands."
+  import autoImport._
 
-  override lazy val settings = Seq(
-    commands ++= Seq(play, pause, stop, next, prev, info, vol, hook)
+  private lazy val settings: Seq[Setting[_]] = Seq(
+    sbtMusicalYouTubePlayer := "sbt-musical-youtube-player",
+    sbtMusicalYouTubeVideoUrl := "https://www.youtube.com/watch?v=b-Cr0EWwaTk&t=15",
+    sbtMusicalHook := Def.setting {
+      Command("♪", musicalBriefHelp, musicalDetailHelp)(BasicCommands.otherCommandParser) { (state, args) =>
+        val p = Process(Seq(sbtMusicalYouTubePlayer.value, sbtMusicalYouTubeVideoUrl.value)).run()
+        try {
+          Command.process(args, state)
+        } finally {
+          p.destroy()
+        }
+      }
+    }.value,
+    commands += sbtMusicalHook.value
   )
+
+  override lazy val buildSettings: Seq[Setting[_]] = settings
+  override lazy val projectSettings: Seq[Setting[_]] = settings
 
 }
