@@ -22,11 +22,11 @@ def _publishTo(v: String) = {
 }
 
 val _pomExtra =
-  <url>http://github.com/tototoshi/sbt-musical</url>
+    <url>https://github.com/tototoshi/sbt-musical</url>
     <licenses>
       <license>
-        <name>Creative Commons Attribution-Share Alike 2.0 UK: England &amp; Wales License</name>
-        <url>http://creativecommons.org/licenses/by-sa/2.0/uk/</url>
+        <name>Apache License, Version 2.0</name>
+        <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
         <distribution>repo</distribution>
       </license>
     </licenses>
@@ -38,6 +38,6 @@ val _pomExtra =
       <developer>
         <id>tototoshi</id>
         <name>Toshiyuki Takahashi</name>
-        <url>http://tototoshi.github.com</url>
+        <url>https://tototoshi.github.io</url>
       </developer>
     </developers>
