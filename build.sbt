@@ -5,7 +5,7 @@ lazy val sbtmusical = project.in(file("."))
   .settings(
     name := "sbt-musical",
     organization := "com.github.tototoshi",
-    version := "1.0.0-SNAPSHOT",
+    version := "1.0.0",
     sbtPlugin := true,
     libraryDependencies ++= Seq(),
     publishMavenStyle := true,
