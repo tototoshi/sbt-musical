@@ -10,7 +10,7 @@ lazy val sbtmusical = project.in(file("."))
     libraryDependencies ++= Seq(),
     publishMavenStyle := true,
     publishTo := Some(_publishTo(version.value)),
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomExtra := _pomExtra
   )
 
