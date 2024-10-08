@@ -7,6 +7,15 @@ lazy val sbtmusical = project.in(file("."))
     organization := "com.github.tototoshi",
     version := "1.0.0",
     sbtPlugin := true,
+    crossScalaVersions += "3.3.4",
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          sbtVersion.value
+        case _ =>
+          "2.0.0-M2"
+      }
+    },
     libraryDependencies ++= Seq(),
     publishMavenStyle := true,
     publishTo := Some(_publishTo(version.value)),
